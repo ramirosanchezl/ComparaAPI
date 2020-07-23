@@ -33,10 +33,10 @@ exports.create = (req, res) => {
     });
 };
 
-// Devuelve todos los productos
+// Devuelve todos los productos con un cierto tag
 exports.findAll = (req, res) => {
   const tag = req.query.tag;
-  var condition = tag ? { model: { $regex: new RegExp(tag), $options: "i" } } : {};
+  var condition = tag ? { tag: { $regex: new RegExp(tag), $options: "i" } } : {};
 
   product.find(condition)
     .then(data => {
