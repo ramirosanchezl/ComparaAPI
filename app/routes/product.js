@@ -18,5 +18,8 @@ module.exports = app => {
   // Ruta para eliminar un producto
   router.delete("/:id", product.delete);
 
+  // Ruta para obtener productos de una cierta categoria
+  router.get("/category/:id", product.getProductsByCat);
+
   app.use("/api/products", router);
 };

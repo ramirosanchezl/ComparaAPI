@@ -1,16 +1,10 @@
 var mongoose = require('mongoose');
-const category = require('./category');
 var Schema = mongoose.Schema;
 
 //Se crea schema para db
 var schema = new Schema(
     {
-      model: String,
-      description: String,
-      brand: String,
-      url: String,
-      category: {type: mongoose.Schema.Types.ObjectId, ref: 'category'},
-      price: String
+      category: String,
     },
     { timestamps: true }
   );
@@ -22,4 +16,4 @@ var schema = new Schema(
   });
 
 
-  module.exports = mongoose.model('product', schema);
+  module.exports = mongoose.model('category', schema);

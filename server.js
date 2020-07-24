@@ -6,11 +6,8 @@ const cors = require("cors");
 const app = express();
 
 //Se setea variables dir para CORS
-var corsOptions = {
-  origin: "http://localhost:3000"
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
+app.options('*', cors());
 
 
 app.use(bodyParser.json());
@@ -18,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Conexion a db
-const db = require("./app/models");
+const db = require("./app");
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -34,9 +31,10 @@ db.mongoose
 
 
 require("./app/routes/product")(app);
+require("./app/routes/category")(app);
 
 // Server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

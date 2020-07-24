@@ -1,8 +1,7 @@
-const Product = require("../models/product");
 const Category = require("../models/category");
 
 
-// Crea y guarda un producto
+// Crea y guarda una categoria
 exports.create = async (req, res) => {
   // Valida request
   if (!req.body) {
@@ -11,35 +10,30 @@ exports.create = async (req, res) => {
   }
 
   // Crear un producto
-  const newProduct = new Product({
-    model: req.body.model,
-    description: req.body.description,
-    brand: req.body.brand,
-    url: req.body.url,
-    tag: req.body.tag,
-    price: req.body.price
+  const newCategory = new Category({
+    category: req.body.category
   });
 
   // Guarda el producto
-  newProduct
-    .save(newProduct)
+  newCategory
+    .save(newCategory)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "No se pudo crear el producto"
+          err.message || "No se pudo crear la categoria"
       });
     });
 };
 
-// Devuelve todos los productos con un cierto tag
+// Devuelve busqueda de categorias
 exports.findAll = async (req, res) => {
-  const tag = req.query.tag;
-  var condition = tag ? { tag: { $regex: new RegExp(tag), $options: "i" } } : {};
+  const category = req.query.category;
+  var condition = category ? { category: { $regex: new RegExp(category), $options: "i" } } : {};
 
-  await Product.find(condition)
+  await Category.find(condition)
     .then(data => {
       res.send(data);
     })
@@ -55,7 +49,7 @@ exports.findAll = async (req, res) => {
 exports.findOne = async (req, res) => {
   const id = req.params.id;
 
-  await Product.findById(id)
+  await Category.findById(id)
     .then(data => {
       if (!data)
         res.status(404).send({ message: "No se encontro el producto:" + id });
@@ -78,17 +72,17 @@ exports.update = async (req, res) => {
 
   const id = req.params.id;
 
-  await Product.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  await Category.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `No se pudo actualizar el producto!`
+          message: `No se pudo actualizar la categoria!`
         });
-      } else res.send({ message: "Producto actualizado." });
+      } else res.send({ message: "Categoria actualizado." });
     })
     .catch(err => {
       res.status(500).send({
-        message: "`No se pudo actualizar el producto: " + id
+        message: "`No se pudo actualizar la categoria: " + id
       });
     });
 };
@@ -97,43 +91,21 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  await Product.findByIdAndRemove(id, { useFindAndModify: false })
+  await Category.findByIdAndRemove(id, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `No se pudo eliminar el producto`
+          message: `No se pudo eliminar la categoria`
         });
       } else {
         res.send({
-          message: "Producto eliminado"
+          message: "Categoria eliminado"
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "No se pudo eliminar el producto"
+        message: "No se pudo eliminar la categoria"
       });
     });
 };
-
-// Devuelve todos los productos de una categoria
-exports.getProductsByCat = async (req, res) => {
-  const id = req.params.id;
-  const category = await Category.findById(id);
-  var condition = category ? { category: { $regex: new RegExp(category), $options: "i" } } : {};
-
-  await Product.find(condition)
-  .then(data => {
-    res.send(data);
-  })
-  .catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Hubo un error buscando los productos"
-    });
-  });
-};
-
-
-
-
