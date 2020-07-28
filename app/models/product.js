@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-const category = require('./category');
+
 var Schema = mongoose.Schema;
 
 //Se crea schema para db
@@ -9,7 +9,7 @@ var schema = new Schema(
       description: String,
       brand: String,
       url: String,
-      category: {type: mongoose.Schema.Types.ObjectId, ref: 'category'},
+      category: String,
       price: String
     },
     { timestamps: true }

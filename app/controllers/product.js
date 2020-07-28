@@ -1,5 +1,4 @@
 const Product = require("../models/product");
-const Category = require("../models/category");
 
 
 // Crea y guarda un producto
@@ -16,7 +15,7 @@ exports.create = async (req, res) => {
     description: req.body.description,
     brand: req.body.brand,
     url: req.body.url,
-    tag: req.body.tag,
+    category: req.body.category,
     price: req.body.price
   });
 
@@ -36,8 +35,8 @@ exports.create = async (req, res) => {
 
 // Devuelve todos los productos con un cierto tag
 exports.findAll = async (req, res) => {
-  const tag = req.query.tag;
-  var condition = tag ? { tag: { $regex: new RegExp(tag), $options: "i" } } : {};
+  const category = req.query.category;
+  var condition = category ? { category: { $regex: new RegExp(category), $options: "i" } } : {};
 
   await Product.find(condition)
     .then(data => {
@@ -116,23 +115,6 @@ exports.delete = async (req, res) => {
     });
 };
 
-// Devuelve todos los productos de una categoria
-exports.getProductsByCat = async (req, res) => {
-  const id = req.params.id;
-  const category = await Category.findById(id);
-  var condition = category ? { category: { $regex: new RegExp(category), $options: "i" } } : {};
-
-  await Product.find(condition)
-  .then(data => {
-    res.send(data);
-  })
-  .catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Hubo un error buscando los productos"
-    });
-  });
-};
 
 
 

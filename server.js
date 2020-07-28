@@ -31,7 +31,6 @@ db.mongoose
 
 
 require("./app/routes/product")(app);
-require("./app/routes/category")(app);
 
 // Server
 const PORT = process.env.PORT || 8000;
