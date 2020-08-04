@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 //Conexion a db
 const db = require("./app");
 db.mongoose
@@ -28,6 +29,7 @@ db.mongoose
     console.log("Cannot connect to the database!", err);
     process.exit();
   });
+
 
 
 require("./app/routes/product")(app);

@@ -10,7 +10,8 @@ var schema = new Schema(
       brand: String,
       url: String,
       category: String,
-      price: String
+      price: String,
+      img: String 
     },
     { timestamps: true }
   );

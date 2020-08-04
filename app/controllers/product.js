@@ -1,13 +1,26 @@
 const Product = require("../models/product");
+var fs = require('fs').promises; 
+var path = require('path');
+var express = require('express');
+var multer = require('multer');
+var router = require("express").Router();
+const uuidv4 = require('uuid');
+
+var dirName = "C:/ComparaYa";
+
 
 
 // Crea y guarda un producto
 exports.create = async (req, res) => {
   // Valida request
   if (!req.body) {
-    res.status(400).send({ message: "Content can not be empty!" });
+    res.status(400).send({ message: "El contenido no puede estar vacio!" });
     return;
   }
+  // Codificacion de img a base 64
+  var encImg = await fs.readFile(req.file.path, {encoding: 'base64'});
+  // Se elimina imagen de carpeta
+  fs.unlink(req.file.path);
 
   // Crear un producto
   const newProduct = new Product({
@@ -16,7 +29,8 @@ exports.create = async (req, res) => {
     brand: req.body.brand,
     url: req.body.url,
     category: req.body.category,
-    price: req.body.price
+    price: req.body.price,
+    img: encImg
   });
 
   // Guarda el producto
