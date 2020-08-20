@@ -11,6 +11,7 @@ var schema = new Schema(
       url: String,
       category: String,
       price: String,
+      store: String,
       img: String 
     },
     { timestamps: true }

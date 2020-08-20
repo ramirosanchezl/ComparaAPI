@@ -30,6 +30,7 @@ exports.create = async (req, res) => {
     url: req.body.url,
     category: req.body.category,
     price: req.body.price,
+    store: req.body.store,
     img: encImg
   });
 
@@ -49,8 +50,8 @@ exports.create = async (req, res) => {
 
 // Devuelve todos los productos con un cierto tag
 exports.findAll = async (req, res) => {
-  const category = req.query.category;
-  var condition = category ? { category: { $regex: new RegExp(category), $options: "i" } } : {};
+  const description = req.query.description;
+  var condition = description ? { description: { $regex: new RegExp(description), $options: "i" } } : {};
 
   await Product.find(condition)
     .then(data => {
