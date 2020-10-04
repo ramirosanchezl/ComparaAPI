@@ -15,7 +15,7 @@ module.exports = app => {
         Files will be saved in the 'uploads' directory. Make
         sure this directory already exists!
       */
-      cb(null, './img');
+      cb(null, './app/img');
     },
     filename: (req, file, cb) => {
       const newFilename = `${uuidv4()}${path.extname(file.originalname)}`;
